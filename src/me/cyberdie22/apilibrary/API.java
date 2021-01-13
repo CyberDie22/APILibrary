@@ -110,8 +110,15 @@ public class API
                 JsonObject texture = properties.get(0).getAsJsonObject();
                 LOGGER.atInfo().log("Player Texture Properties: %s", texture);
                 String textureb64 = texture.get("value").getAsString();
-                URL textureUrl = new URL(Arrays.toString(Base64.getDecoder().decode(textureb64)));
-                LOGGER.atInfo().log("URL=%s", textureUrl);
+                LOGGER.atInfo().log("Player Texture Properties Value: %s", textureb64);
+                JsonObject textureData = (JsonObject) Json.getStringAsJsonObject(new String(Base64.getDecoder().decode(textureb64)));
+                LOGGER.atInfo().log("data=%s", textureData);
+                JsonObject textures = textureData.getAsJsonObject("textures");
+                LOGGER.atInfo().log("textures=%s", textures);
+                JsonObject skin = textures.getAsJsonObject("SKIN");
+                LOGGER.atInfo().log("skin=%s", skin);
+                URL textureUrl = new URL(skin.get("url").getAsString());
+                LOGGER.atInfo().log("url=%s", textureUrl);
             } catch (Exception e)
             {
                 LOGGER.atSevere().withCause(e).log();
@@ -162,7 +169,7 @@ public class API
                 out.close();
 
                 // Player Skin Cache
-                fstream = new FileWriter("resources/caches/player_skin_textures.json");
+                fstream = new FileWriter("resources/caches/player_skin_texture.json");
                 out = new BufferedWriter(fstream);
                 out.write(Json.convertMapToJsonObject(cachedUUIDs));
                 out.close();

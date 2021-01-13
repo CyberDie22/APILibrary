@@ -14,6 +14,8 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Json {
 
@@ -40,9 +42,18 @@ public class Json {
             InputStream inputStream = URLconnection.getInputStream();
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
 
-            return bufferedReader.readLine();
+            Stream<String> jsonMultiLine = bufferedReader.lines();
+            StringBuilder json = new StringBuilder();
+            for (Object str : jsonMultiLine.toArray())
+            {
+                json.append(str);
+            }
+            LOGGER.atInfo().log(json.toString());
+            return json.toString();
 
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+            ignored.printStackTrace();
+        }
 
         return "";
     }
