@@ -1,0 +1,44 @@
+<component name="libraryTable">
+  <library name="com.google.errorprone:error_prone_core:2.0.4" type="repository">
+    <properties maven-id="com.google.errorprone:error_prone_core:2.0.4" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_core-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotation-2.0.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcip-annotations-1.0-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pcollections-2.1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-18.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jFormatString-3.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dataflow-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javacutil-1.8.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javac-1.9.0-dev-r2644-1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.0.4.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_core-2.0.4-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotation-2.0.4-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcip-annotations-1.0-1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pcollections-2.1.2-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-18.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jFormatString-3.0.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.0-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dataflow-1.8.10-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javacutil-1.8.10-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javac-1.9.0-dev-r2644-1-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.0.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_core-2.0.4-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotation-2.0.4-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jcip-annotations-1.0-1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pcollections-2.1.2-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-18.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jFormatString-3.0.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jsr305-3.0.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/dataflow-1.8.10-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javacutil-1.8.10-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javac-1.9.0-dev-r2644-1-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/error_prone_annotations-2.0.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,16 @@
+<component name="libraryTable">
+  <library name="org.openengsb.wrapped:com.google.guava-all:1.1.0.M2" type="repository">
+    <properties maven-id="org.openengsb.wrapped:com.google.guava-all:1.1.0.M2" />
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/com.google.guava-all-1.1.0.M2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-r07.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/lib/com.google.guava-all-1.1.0.M2-javadoc.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/guava-r07-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/lib/guava-r07-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

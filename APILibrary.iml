@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="KotlinJavaRuntime" level="project" />
+    <orderEntry type="library" name="org.openengsb.wrapped:com.google.guava-all:1.1.0.M2" level="project" />
+    <orderEntry type="library" name="com.google.guava:failureaccess:1.0.1" level="project" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.6" level="project" />
+    <orderEntry type="library" name="com.google.flogger:flogger:0.5.1" level="project" />
+    <orderEntry type="library" name="com.google.flogger:flogger-system-backend:0.5.1" level="project" />
+    <orderEntry type="library" name="org.jetbrains:annotations:20.1.0" level="project" />
+    <orderEntry type="library" name="com.google.errorprone:error_prone_annotation:2.5.0" level="project" />
+    <orderEntry type="library" name="com.google.errorprone:error_prone_annotations:2.5.0" level="project" />
+    <orderEntry type="library" name="com.google.errorprone:error_prone_ant:2.0.4" level="project" />
+    <orderEntry type="library" name="com.google.errorprone:error_prone_core:2.0.4" level="project" />
+    <orderEntry type="library" name="com.google.errorprone:error_prone_docgen:2.0.4" level="project" />
+  </component>
+</module>
