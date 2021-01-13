@@ -1,4 +1,4 @@
-package me.cyberdie22.apilibrary.mojang;
+package me.cyberdie22.apilibrary;
 
 public enum Status {
     GREEN,
