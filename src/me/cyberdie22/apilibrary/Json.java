@@ -11,21 +11,26 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Json {
 
+    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+
     public static Object getStringAsJsonObject(@NotNull String string) {
         try {
             return new JsonParser().parse(string).getAsJsonObject();
         } catch (Exception e) {
+            LOGGER.atInfo().log("Inputted String %s is not a JsonObject, trying to get as a JsonArray", string);
             return new JsonParser().parse(string).getAsJsonArray();
         }
     }
 
     public static String getURLAsString(@NotNull URL URL) {
         try {
+            LOGGER.atInfo().log("URL = %s", URL);
             HttpsURLConnection URLconnection = (HttpsURLConnection) URL.openConnection();
             URLconnection.setRequestMethod("GET");
             URLconnection.connect();
@@ -60,7 +65,7 @@ public class Json {
     public static Map<String, String> convertJsonStringToMap(@NotNull String json)
     {
         JsonObject obj = (JsonObject) getStringAsJsonObject(json);
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>();
         for (Map.Entry<String, JsonElement> entry : obj.entrySet())
         {
             map.put(entry.getKey(), entry.getValue().getAsString());

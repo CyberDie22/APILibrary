@@ -10,5 +10,7 @@ public class APILibrary {
         API.Mojang.retrieveCaches();
         if (API.Mojang.apiStatus() == Status.GREEN) LOGGER.atInfo().log("Mojang API is online");
         else LOGGER.atWarning().log("Mojang API is offline, cannot ensure that player will exist in Hypixel API Database");
+
+        LOGGER.atInfo().log(API.Mojang.create().setPlayer("owaytt").getUUIDFromPlayer());
     }
 }
