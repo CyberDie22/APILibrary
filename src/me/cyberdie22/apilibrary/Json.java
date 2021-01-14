@@ -1,10 +1,14 @@
 package me.cyberdie22.apilibrary;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.apache.http.ParseException;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
@@ -21,13 +25,100 @@ public class Json {
 
     private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
 
-    public static Object getStringAsJsonObject(@NotNull String string) {
+    public static Object getUrlAsJsonObject(@NotNull String url) {
         try {
-            return new JsonParser().parse(string).getAsJsonObject();
+            return getJSONObjectFromURL(url);
         } catch (Exception e) {
-            LOGGER.atInfo().log("Inputted String %s is not a JsonObject, trying to get as a JsonArray", string);
-            return new JsonParser().parse(string).getAsJsonArray();
+            LOGGER.atInfo().log("Inputted URL: %s\ndoes not contain a JsonObject, trying to get as a JsonArray", url);
+            return getJSONArrayFromUrl(url);
         }
+    }
+
+    public static Object getStringAsJsonObject(@NotNull String string)
+    {
+        try
+        {
+            return getJSONObjectFromString(string);
+        } catch (Exception e) {
+            LOGGER.atInfo().log("Inputted String: %s\ndoes not contain a JsonObject, trying to get as a JsonArray", string);
+            return getJSONArrayFromString(string);
+        }
+    }
+
+    public static JsonObject getJSONObjectFromURL(String url)
+    {
+        LOGGER.atInfo().log("Conecting to: %s", url);
+        JsonObject obj;
+
+        try
+        {
+            obj = (JsonObject) JsonParser.parseString(Unirest.get(url).asString().getBody());
+            Object err = obj.get("error");
+            if (err != null)
+            {
+                err = ((JsonElement) err).getAsString();
+                if("IllegalArgumentException".equals(err))
+                {
+                    throw new IllegalArgumentException(obj.get("errorMessage").getAsString());
+                }
+                throw new RuntimeException((String) err);
+            }
+        }
+        catch (ParseException | UnirestException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return obj;
+    }
+
+    public static JsonObject getJSONObjectFromString(String string)
+    {
+        JsonObject obj;
+
+        try
+        {
+            obj = (JsonObject) JsonParser.parseString(string);
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return obj;
+    }
+
+    public static JsonArray getJSONArrayFromUrl(String url)
+    {
+        LOGGER.atFiner().log("Conecting to: %s", url);
+        JsonArray arr;
+
+        try
+        {
+            arr = (JsonArray) JsonParser.parseString(Unirest.get(url).asString().getBody());
+        }
+        catch (ParseException | UnirestException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return arr;
+    }
+
+    public static JsonArray getJSONArrayFromString(String string)
+    {
+        JsonArray arr;
+
+        try
+        {
+            arr = (JsonArray) JsonParser.parseString(string);
+        }
+        catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        return arr;
     }
 
     public static String getURLAsString(@NotNull URL URL) {
@@ -37,6 +128,7 @@ public class Json {
             URLconnection.setRequestMethod("GET");
             URLconnection.connect();
             int code = URLconnection.getResponseCode();
+            LOGGER.atInfo().log("%s", code);
             if (code == 204) return "204";
             if (code == 400) return "400";
             InputStream inputStream = URLconnection.getInputStream();
@@ -51,8 +143,8 @@ public class Json {
             LOGGER.atInfo().log(json.toString());
             return json.toString();
 
-        } catch (Exception ignored) {
-            ignored.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         return "";
@@ -61,27 +153,6 @@ public class Json {
     public static Object getURLAsJsonObject(@NotNull URL URL)
     {
         return getStringAsJsonObject(getURLAsString(URL));
-    }
-
-    public static String convertMapToJsonObject(@NotNull Map<String, String> map)
-    {
-        JsonObject obj = new JsonObject();
-        for (Map.Entry<String, String> entry : map.entrySet())
-        {
-            obj.addProperty(entry.getKey(), entry.getValue());
-        }
-        return obj.toString();
-    }
-
-    public static Map<String, String> convertJsonStringToMap(@NotNull String json)
-    {
-        JsonObject obj = (JsonObject) getStringAsJsonObject(json);
-        Map<String, String> map = new HashMap<>();
-        for (Map.Entry<String, JsonElement> entry : obj.entrySet())
-        {
-            map.put(entry.getKey(), entry.getValue().getAsString());
-        }
-        return map;
     }
 
 }

@@ -20,5 +20,6 @@
     <orderEntry type="library" name="com.google.errorprone:error_prone_ant:2.0.4" level="project" />
     <orderEntry type="library" name="com.google.errorprone:error_prone_core:2.0.4" level="project" />
     <orderEntry type="library" name="com.google.errorprone:error_prone_docgen:2.0.4" level="project" />
+    <orderEntry type="library" name="com.mashape.unirest:unirest-java:1.4.9" level="project" />
   </component>
 </module>
