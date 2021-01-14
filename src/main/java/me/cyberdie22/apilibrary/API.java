@@ -5,16 +5,46 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import net.hypixel.api.HypixelAPI;
 import org.apache.http.ParseException;
 
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class API
 {
+    public static UUID fixUUID(String uuid)
+    {
+        char[] chars = uuid.toCharArray();
+        List<Character> characters = new ArrayList<>();
+        for (char i : chars)
+        {
+            characters.add(i);
+        }
+        AtomicReference<String> newUuid = new AtomicReference<>("");
+        AtomicInteger count = new AtomicInteger();
+        characters.forEach(character -> {
+            if (count.get() != 8 && count.get() != 12 && count.get() != 16 && count.get() != 20) newUuid.updateAndGet(v -> v + character);
+            if (count.get() == 8) newUuid.updateAndGet(v -> v + "-" + character);
+            if (count.get() == 12) newUuid.updateAndGet(v -> v + "-" + character);
+            if (count.get() == 16) newUuid.updateAndGet(v -> v + "-" + character);
+            if (count.get() == 20) newUuid.updateAndGet(v -> v + "-" + character);
+            count.getAndIncrement();
+        });
+        return UUID.fromString(newUuid.get());
+    }
+
     public static class Hypixel
     {
+        private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+        private static HypixelAPI API;
 
+        public Hypixel(String uuid)
+        {
+            API = new HypixelAPI(fixUUID(uuid));
+        }
     }
 
     public static class Mojang

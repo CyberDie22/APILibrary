@@ -18,11 +18,9 @@ public class APILibrary {
         mojang = new API.Mojang().connect();
         if (mojang.getStatus(API.Mojang.ServiceType.API_MOJANG_COM) == API.Mojang.ServiceStatus.GREEN) LOGGER.atInfo().log("Mojang API is online");
         else LOGGER.atWarning().log("Mojang API is offline, cannot ensure that player will exist in Hypixel API Database");
-        
-        LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
-        mojang.getNameHistoryOfPlayer(mojang.getUuidOfPlayer("Minecraaftt"));
-        LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
-        LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
+
+        LOGGER.atInfo().log("UUID: %s", API.fixUUID(mojang.getUuidOfPlayer("Minecraaftt")));
+
         shutdown();
     }
 
