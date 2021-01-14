@@ -17,6 +17,10 @@ public class API
 {
     public static UUID fixUUID(String uuid)
     {
+        try
+        {
+            return UUID.fromString(uuid);
+        } catch (Exception ignored) {}
         List<Character> characters = new ArrayList<>();
         for (char i : uuid.toCharArray()) { characters.add(i); }
         AtomicReference<String> newUuid = new AtomicReference<>("");
@@ -43,9 +47,21 @@ public class API
         private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
         private static HypixelAPI API;
 
-        public Hypixel(String uuid)
+        public Hypixel(String apiKey)
         {
-            API = new HypixelAPI(fixUUID(uuid));
+            API = new HypixelAPI(fixUUID(apiKey));
+        }
+
+        public int getOnlinePlayers()
+        {
+            try
+            {
+                return API.getGameCounts().get().getPlayerCount();
+            } catch (Exception e)
+            {
+                LOGGER.atSevere().withCause(e).log();
+            }
+            return 0;
         }
     }
 
@@ -173,10 +189,12 @@ public class API
             // Return cached player profile if possible
             if (cachedPlayerProfiles.containsKey(uuid)) return cachedPlayerProfiles.get(uuid);
             LOGGER.atInfo().log("Not getting Player Profile from cache!");
+            // Return null if session server is down
+            if (!(getStatus(ServiceType.SESSIONSERVER_MOJANG_COM) == ServiceStatus.GREEN)) return null;
             JsonObject obj = Json.getJSONObjectFromURL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
             String name = obj.get("name").getAsString();
             Set<PlayerProfile.Property> properties = new HashSet<>();
-            for (JsonElement o : obj.get("properties").getAsJsonArray())
+            obj.get("properties").getAsJsonArray().forEach(o ->
             {
                 PlayerProfile.Property property;
                 JsonObject prop = (JsonObject) o;
@@ -226,7 +244,7 @@ public class API
                 } catch (Exception ignored) {}
                 property.value = propValue;
                 properties.add(property);
-            }
+            });
             PlayerProfile playerProfile = new PlayerProfile(uuid, name, properties);
             cachedPlayerProfiles.put(uuid, playerProfile);
             return playerProfile;
