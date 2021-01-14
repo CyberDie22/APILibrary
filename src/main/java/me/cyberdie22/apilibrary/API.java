@@ -299,7 +299,7 @@ public class API
         /**
          * Represents a property.
          */
-        public static class Property extends JsonElement
+        public static class Property
         {
             String name;
             String value;
@@ -315,18 +315,6 @@ public class API
 
             public String getSignature() {
                 return signature;
-            }
-
-            /**
-             * Returns a deep copy of this element. Immutable elements like primitives
-             * and nulls are not copied.
-             *
-             * @since 2.8.2
-             */
-            @Override
-            public JsonElement deepCopy()
-            {
-                return null;
             }
         }
 

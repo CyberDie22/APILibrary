@@ -22,10 +22,6 @@ public class APILibrary {
         LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
         mojang.getNameHistoryOfPlayer(mojang.getUuidOfPlayer("Minecraaftt"));
         LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
-        try
-        {
-            Thread.sleep(60 * 1000);
-        } catch (InterruptedException ignored) {}
         LOGGER.atInfo().log("%s", mojang.getPlayerProfile(mojang.getUuidOfPlayer("Minecraaftt")).toString());
         shutdown();
     }
@@ -36,5 +32,6 @@ public class APILibrary {
     public static void shutdown()
     {
         executorService.shutdown();
+        System.exit(0);
     }
 }

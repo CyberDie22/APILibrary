@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.google.errorprone:javac:1.9.0-dev-r2644-1">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/javac/1.9.0-dev-r2644-1/javac-1.9.0-dev-r2644-1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/javac/1.9.0-dev-r2644-1/javac-1.9.0-dev-r2644-1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/google/errorprone/javac/1.9.0-dev-r2644-1/javac-1.9.0-dev-r2644-1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
