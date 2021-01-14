@@ -17,20 +17,22 @@ public class API
 {
     public static UUID fixUUID(String uuid)
     {
-        char[] chars = uuid.toCharArray();
         List<Character> characters = new ArrayList<>();
-        for (char i : chars)
-        {
-            characters.add(i);
-        }
+        for (char i : uuid.toCharArray()) { characters.add(i); }
         AtomicReference<String> newUuid = new AtomicReference<>("");
+        AtomicReference<String> dash = new AtomicReference<>("-");
         AtomicInteger count = new AtomicInteger();
         characters.forEach(character -> {
-            if (count.get() != 8 && count.get() != 12 && count.get() != 16 && count.get() != 20) newUuid.updateAndGet(v -> v + character);
-            if (count.get() == 8) newUuid.updateAndGet(v -> v + "-" + character);
-            if (count.get() == 12) newUuid.updateAndGet(v -> v + "-" + character);
-            if (count.get() == 16) newUuid.updateAndGet(v -> v + "-" + character);
-            if (count.get() == 20) newUuid.updateAndGet(v -> v + "-" + character);
+            switch (count.get())
+            {
+                case 8:
+                case 12:
+                case 16:
+                case 20:
+                    newUuid.updateAndGet(v -> v + dash + character);
+                default:
+                    newUuid.updateAndGet(v -> v + character);
+            }
             count.getAndIncrement();
         });
         return UUID.fromString(newUuid.get());
