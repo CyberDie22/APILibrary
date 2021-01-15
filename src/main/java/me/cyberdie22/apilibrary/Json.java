@@ -150,6 +150,15 @@ public class Json {
         return "";
     }
 
+    public static Map<String, String> getMapFromJsonObject(JsonObject obj)
+    {
+        Map<String, String> result = new HashMap<>();
+        obj.entrySet().forEach(entry -> {
+            result.put(entry.getKey(), entry.getValue().getAsString());
+        });
+        return result;
+    }
+
     public static Object getURLAsJsonObject(@NotNull URL URL)
     {
         return getStringAsJsonObject(getURLAsString(URL));
