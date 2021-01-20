@@ -894,6 +894,7 @@ public class API {
          * @param uuid UUID to get player profile of
          * @return Player Profile of provided UUID using a {@link me.cyberdie22.apilibrary.API.PlayerProfile} (Only returns with Mojang data, does not return with Hypixel data)
          */
+        @SuppressWarnings("all")
         public PlayerProfile getPlayerProfile(String uuid) {
             // Return cached player profile if possible
             if(cachedPlayerProfiles.containsKey(uuid)) return cachedPlayerProfiles.get(uuid);
@@ -1056,6 +1057,7 @@ public class API {
         private String uuid;
         private String username;
         private Set<Property> properties;
+        @SuppressWarnings("all")
         private Optional<TexturesProperty> textures;
         private boolean online;
         private GameType game;
