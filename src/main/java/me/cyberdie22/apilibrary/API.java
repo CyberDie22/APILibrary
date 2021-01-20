@@ -13,31 +13,30 @@ import java.net.URL;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.StreamSupport;
 
-public class API
-{
+public class API {
 
     /**
      * Fixes a UUID to add dashes in it
+     *
      * @param uuid UUID to fix
      * @return Fixed UUID
      */
-    public static UUID fixUUID(String uuid)
-    {
+    public static UUID fixUUID(String uuid) {
         final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
-        try
-        {
+        try {
             return UUID.fromString(uuid);
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         List<Character> characters = new ArrayList<>();
-        for (char i : uuid.toCharArray()) { characters.add(i); }
+        for (char i : uuid.toCharArray()) {
+            characters.add(i);
+        }
         AtomicReference<String> newUuid = new AtomicReference<>("");
         AtomicReference<String> dash = new AtomicReference<>("-");
         AtomicInteger count = new AtomicInteger();
         characters.forEach(character -> {
-            switch (count.get())
-            {
+            switch (count.get()) {
                 case 8:
                 case 12:
                 case 16:
@@ -53,27 +52,23 @@ public class API
         return UUID.fromString(newUuid.get());
     }
 
-    public static class Hypixel
-    {
+    public static class Hypixel {
         private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
         public static HypixelAPI API;
 
-        public Hypixel(String apiKey)
-        {
+        public Hypixel(String apiKey) {
             API = new HypixelAPI(fixUUID(apiKey));
         }
 
         /**
          * Returns the amount of players online on Hypixel
+         *
          * @return The amount of players online on Hypixel
          */
-        public int getOnlinePlayers()
-        {
-            try
-            {
+        public int getOnlinePlayers() {
+            try {
                 return API.getGameCounts().get().getPlayerCount();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
@@ -81,16 +76,14 @@ public class API
 
         /**
          * Returns the amount of players online in a specific game on Hypixel
+         *
          * @param gameType Game to get amount of players playing
          * @return the amount of players online in a specific game on Hypixel
          */
-        public int getOnlinePlayers(GameType gameType)
-        {
-            try
-            {
+        public int getOnlinePlayers(GameType gameType) {
+            try {
                 return API.getGameCounts().get().getGames().get(gameType.convert().toString()).getPlayers();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
@@ -98,50 +91,32 @@ public class API
 
         /**
          * Gets the Guild ID of a specific guild
+         *
          * @param name the name of the guild to get the guild id of
          * @return the guild id of a named guild
          */
-        public String getGuildID(String name)
-        {
-            try
-            {
+        public String getGuildID(String name) {
+            try {
                 return API.getGuildByName(name).get().toString();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return "";
         }
 
-        /**
-         * Returns the {@code net.hypixel.api.reply.GuildReply.Guild} object for the specified guild id
-         * @param id guild id to get {@code net.hypixel.api.reply.GuildReply.Guild} object for
-         * @return the {@code net.hypixel.api.reply.GuildReply.Guild} object for the specified guild id
-         */
-        public GuildReply.Guild getGuild(String id)
-        {
-            try
-            {
+        public GuildReply.Guild getGuild(String id) {
+            try {
                 return API.getGuildById(id).get().getGuild();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        /**
-         * Gets a list of players a player is friended with
-         * @param uuid uuid of player to get friends of
-         * @return list of players a player is friended with
-         */
-        public List<FriendsReply.FriendShip> getFriends(String uuid)
-        {
-            try
-            {
+        public List<FriendsReply.FriendShip> getFriends(String uuid) {
+            try {
                 return API.getFriends(uuid).get().getFriendShips();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
@@ -149,15 +124,13 @@ public class API
 
         /**
          * Gets a list of active/queued boosters
+         *
          * @return list of active/queued boosters
          */
-        public List<BoostersReply.Booster> getBoosters()
-        {
-            try
-            {
+        public List<BoostersReply.Booster> getBoosters() {
+            try {
                 return API.getBoosters().get().getBoosters();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
@@ -165,31 +138,22 @@ public class API
 
         /**
          * Gets the booster state of all boosters on the network
+         *
          * @return the booster state of all boosters on the network
          */
-        public BoostersReply.BoosterState getBoosterState()
-        {
-            try
-            {
+        public BoostersReply.BoosterState getBoosterState() {
+            try {
                 return API.getBoosters().get().getBoosterState();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        /**
-         * Gets info about an API key
-         * @return info about an API key
-         */
-        public KeyReply.Key getKeyInfo()
-        {
-            try
-            {
+        public KeyReply.Key getKeyInfo() {
+            try {
                 return API.getKey().get().getRecord();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
@@ -197,16 +161,14 @@ public class API
 
         /**
          * Gets all leaderboards for a specific game
+         *
          * @param gameType game to get leaderboards of
          * @return all leaderboards for a specific game
          */
-        public List<LeaderboardsReply.Leaderboard> getLeaderboard(net.hypixel.api.util.GameType gameType)
-        {
-            try
-            {
+        public List<LeaderboardsReply.Leaderboard> getLeaderboard(net.hypixel.api.util.GameType gameType) {
+            try {
                 return API.getLeaderboards().get().getLeaderboards().get(gameType);
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
@@ -214,388 +176,276 @@ public class API
 
         /**
          * Gets a specific leaderboard for a specific game
+         *
          * @param gameType game to get leaderboard od
-         * @param path path of leaderboard
-         * @param prefix prefix of leaderboard
+         * @param path     path of leaderboard
+         * @param prefix   prefix of leaderboard
          * @return a specific leaderboard for a specific game
          */
-        public LeaderboardsReply.Leaderboard getLeaderboard(net.hypixel.api.util.GameType gameType, LeaderboardPaths path, LeaderboardPrefix prefix)
-        {
-            try
-            {
+        public LeaderboardsReply.Leaderboard getLeaderboard(net.hypixel.api.util.GameType gameType, LeaderboardPaths path, LeaderboardPrefix prefix) {
+            try {
                 AtomicReference<LeaderboardsReply.Leaderboard> selectedLeaderboard = new AtomicReference<LeaderboardsReply.Leaderboard>();
                 API.getLeaderboards().get().getLeaderboards().get(gameType).forEach(leaderboard -> {
-                    if (leaderboard.getPath().equals(path.toString()) && leaderboard.getPrefix().equals(prefix.toString())) selectedLeaderboard.set(leaderboard);
+                    if(leaderboard.getPath().equals(path.toString()) && leaderboard.getPrefix().equals(prefix.toString()))
+                        selectedLeaderboard.set(leaderboard);
                 });
                 return selectedLeaderboard.get();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        /**
-         * Gets the recent games of a player
-         * @param uuid UUID of player to get recent games of
-         * @return the recent games of a player
-         */
-        public List<RecentGamesReply.GameSession> getRecentGames(UUID uuid)
-        {
-            try
-            {
+        public List<RecentGamesReply.GameSession> getRecentGames(UUID uuid) {
+            try {
                 return API.getRecentGames(uuid).get().getGames();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        /**
-         * Gets the session status of the player
-         * @param uuid UUID of said player
-         * @return the session status of the player
-         */
-        public StatusReply.Session getStatus(UUID uuid)
-        {
-            try
-            {
+        public StatusReply.Session getStatus(UUID uuid) {
+            try {
                 return API.getStatus(uuid).get().getSession();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        /**
-         * Gets the number of rolling daily staff bans
-         * @return the number of rolling daily staff bans
-         */
-        public int getDailyStaffBans()
-        {
-            try
-            {
+        public int getDailyStaffBans() {
+            try {
                 return API.getWatchdogStats().get().getStaffRollingDaily();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
         }
 
-        /**
-         * Gets the number of rolling daily watchdog bans
-         * @return the number of rolling daily watchdog bans
-         */
-        public int getDailyWatchdogBans()
-        {
-            try
-            {
+        public int getDailyWatchdogBans() {
+            try {
                 return API.getWatchdogStats().get().getWatchdogRollingDaily();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
         }
 
-        /**
-         * Gets the number of daily watchdog bans in the last minute
-         * @return the number of daily watchdog bans in the last minute
-         */
-        public int getLastMinuteWatchdogBans()
-        {
-            try
-            {
+        public int getLastMinuteWatchdogBans() {
+            try {
                 return API.getWatchdogStats().get().getWatchdogLastMinute();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
         }
 
-        /**
-         * Gets the number of total staff bans
-         * @return the number of total staff bans
-         */
-        public int getStaffTotalBans()
-        {
-            try
-            {
+        public int getStaffTotalBans() {
+            try {
                 return API.getWatchdogStats().get().getStaffTotal();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
         }
 
-        /**
-         * Gets the number of total watchdog bans
-         * @return the number of total watchdog bans
-         */
-        public int getWatchdogTotalBans()
-        {
-            try
-            {
+        public int getWatchdogTotalBans() {
+            try {
                 return API.getWatchdogStats().get().getWatchdogTotal();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0;
         }
 
-        public JsonObject getPlayerData(UUID uuid)
-        {
-            try
-            {
+        public JsonObject getPlayerData(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public long getFirstLoginTime(UUID uuid)
-        {
-            try
-            {
+        public long getFirstLoginTime(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("firstLogin").getAsLong();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atInfo().withCause(e).log();
             }
             return 0L;
         }
 
-        public List<String> getKnownAliases(UUID uuid)
-        {
-            try
-            {
+        public List<String> getKnownAliases(UUID uuid) {
+            try {
                 AtomicReference<List<String>> knownAliases = new AtomicReference<>();
                 API.getPlayerByUuid(uuid).get().getPlayer().get("knownAliases").getAsJsonArray().forEach(alias -> {
                     knownAliases.get().add(alias.getAsString());
                 });
                 return knownAliases.get();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public long getLastLogin(UUID uuid)
-        {
-            try
-            {
+        public long getLastLogin(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("lastLogin").getAsLong();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0L;
         }
 
-        public Rank getRank(UUID uuid)
-        {
-            try
-            {
+        public Rank getRank(UUID uuid) {
+            try {
                 return Rank.valueOf(API.getPlayerByUuid(uuid).get().getPlayer().get("newPackageRank").getAsString());
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return Rank.NONE;
         }
 
-        public long getLastLogout(UUID uuid)
-        {
-            try
-            {
+        public long getLastLogout(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("lastLogout").getAsLong();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0L;
         }
 
-        public long getKarma(UUID uuid)
-        {
-            try
-            {
+        public long getKarma(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("karma").getAsLong();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0L;
         }
 
-        public double getNetworkExp(UUID uuid)
-        {
-            try
-            {
+        public double getNetworkExp(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("networkExp").getAsDouble();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0D;
         }
 
-        public long getAchievementPoints(UUID uuid)
-        {
-            try
-            {
+        public long getAchievementPoints(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("achievementPoints").getAsLong();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return 0L;
         }
 
-        public String getSocialMediaLink(UUID uuid, SocialMedia socialMedia)
-        {
-            try
-            {
+        public String getSocialMediaLink(UUID uuid, SocialMedia socialMedia) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().getAsJsonObject("socialMedia").getAsJsonObject("links").get(socialMedia.toString()).getAsString();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public Locale getPlayerLanguage(UUID uuid)
-        {
-            try
-            {
+        public Locale getPlayerLanguage(UUID uuid) {
+            try {
                 return Locale.forLanguageTag(API.getPlayerByUuid(uuid).get().getPlayer().get("userLanguage").getAsString());
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return Locale.ENGLISH;
         }
 
-        public String getCurrentPet(UUID uuid)
-        {
-            try
-            {
+        public String getCurrentPet(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("currentPet").getAsString();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public String getCurrentGadget(UUID uuid)
-        {
-            try
-            {
+        public String getCurrentGadget(UUID uuid) {
+            try {
                 return API.getPlayerByUuid(uuid).get().getPlayer().get("currentGadget").getAsString();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public net.hypixel.api.util.GameType getMostRecentGamePlayed(UUID uuid)
-        {
-            try
-            {
+        public net.hypixel.api.util.GameType getMostRecentGamePlayed(UUID uuid) {
+            try {
                 return net.hypixel.api.util.GameType.valueOf(API.getPlayerByUuid(uuid).get().getPlayer().get("mostRecentGameType").getAsString());
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public String getValue(UUID uuid, String... valuePath)
-        {
-            try
-            {
+        public String getValue(UUID uuid, String... valuePath) {
+            try {
                 JsonObject obj = API.getPlayerByUuid(uuid).get().getPlayer();
-                for (int i = 0; i < valuePath.length - 2; i++)
-                {
+                for (int i = 0; i < valuePath.length - 2; i++) {
                     obj = obj.getAsJsonObject(valuePath[i]);
                 }
                 return obj.get(valuePath[valuePath.length - 1]).getAsString();
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
             }
             return null;
         }
 
-        public UUID getAPIKey()
-        {
+        public UUID getAPIKey() {
             return API.getApiKey();
         }
 
-        public API.Hypixel.Bedwars getBedwars()
-        {
+        public API.Hypixel.Bedwars getBedwars() {
             return new Bedwars(this);
         }
 
-        public static class Bedwars
-        {
+        public static class Bedwars {
             private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
             private static HypixelAPI API;
 
-            public Bedwars(API.Hypixel api)
-            {
+            public Bedwars(API.Hypixel api) {
                 API = new HypixelAPI(api.getAPIKey());
             }
 
-            public JsonObject getBedwarsStats(UUID uuid)
-            {
-                try
-                {
+            public JsonObject getBedwarsStats(UUID uuid) {
+                try {
                     return API.getPlayerByUuid(uuid).get().getPlayer().getAsJsonObject("stats").getAsJsonObject("Bedwars");
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     LOGGER.atSevere().withCause(e).log();
                 }
                 return null;
             }
 
-            public long getBedwarsExp(UUID uuid)
-            {
-                try
-                {
+            public long getBedwarsExp(UUID uuid) {
+                try {
                     return this.getBedwarsStats(uuid).get("Experience").getAsLong();
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     LOGGER.atSevere().withCause(e).log();
                 }
                 return 0L;
             }
 
-            public Map<PrivateGameSettings, Object> getPrivateGameSettings(UUID uuid)
-            {
-                try
-                {
+            public Map<PrivateGameSettings, Object> getPrivateGameSettings(UUID uuid) {
+                try {
                     LOGGER.atInfo().log("%s", Json.getMapFromJsonObject(this.getBedwarsStats(uuid).getAsJsonObject("privategames")));
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     LOGGER.atSevere().withCause(e).log();
                 }
                 return null;
             }
 
-            public enum PrivateGameSettings
-            {
+            public enum PrivateGameSettings {
                 HEALTH_BUFF,
                 LOW_GRAVITY,
                 SPEED,
@@ -618,15 +468,13 @@ public class API
                  * @return the name of this enum constant
                  */
                 @Override
-                public String toString()
-                {
+                public String toString() {
                     return super.toString().toLowerCase();
                 }
             }
         }
 
-        public enum SocialMedia
-        {
+        public enum SocialMedia {
             DISCORD,
             YOUTUBE,
             TWITTER,
@@ -635,8 +483,7 @@ public class API
             HYPIXEL_FOURMS
         }
 
-        public enum Rank
-        {
+        public enum Rank {
             NONE,
             VIP,
             VIP_PLUS,
@@ -653,12 +500,10 @@ public class API
         /**
          * Leaderboard Prefixes
          */
-        public enum LeaderboardPrefix
-        {
+        public enum LeaderboardPrefix {
             OVERALL,
             WEEKLY,
-            CURRENT
-            ;
+            CURRENT;
 
             /**
              * Returns the name of this enum constant, as contained in the
@@ -669,10 +514,8 @@ public class API
              * @return the name of this enum constant
              */
             @Override
-            public String toString()
-            {
-                switch (this)
-                {
+            public String toString() {
+                switch (this) {
                     case WEEKLY:
                         return "Weekly";
                     case CURRENT:
@@ -687,14 +530,12 @@ public class API
         /**
          * Leaderboard Paths
          */
-        public enum LeaderboardPaths
-        {
+        public enum LeaderboardPaths {
             BEDWARS_LEVEL,
             WINS,
             WINS_1,
             FINAL_KILLS,
-            FINAL_KILLS_1
-            ;
+            FINAL_KILLS_1;
 
             /**
              * Returns the name of this enum constant, as contained in the
@@ -703,8 +544,7 @@ public class API
              * @return the name of this enum constant
              */
             @Override
-            public String toString()
-            {
+            public String toString() {
                 return super.toString().toLowerCase();
             }
         }
@@ -712,8 +552,7 @@ public class API
         /**
          * Game types
          */
-        public enum GameType
-        {
+        public enum GameType {
             QUAKECRAFT,
             WALLS,
             PAINTBALL,
@@ -740,8 +579,7 @@ public class API
             BUILD_BATTLE,
             DUELS,
             SKYBLOCK,
-            PIT
-            ;
+            PIT;
 
 
             /**
@@ -751,10 +589,8 @@ public class API
              * @return the name of this enum constant
              */
             @Override
-            public String toString()
-            {
-                switch (this)
-                {
+            public String toString() {
+                switch (this) {
                     case BLITZ_SURVIVAL_GAMES:
                         return "SURVIVAL_GAMES";
                     case WARLORDS:
@@ -778,22 +614,18 @@ public class API
 
             /**
              * Converts a {@code me.cyberdie22.apilibrary.API.Hypixel.GameType} object to a {@code net.hypixxel.api.util.GameType} object
-             * @return
              */
-            public net.hypixel.api.util.GameType convert()
-            {
+            public net.hypixel.api.util.GameType convert() {
                 return net.hypixel.api.util.GameType.valueOf(this.toString());
             }
         }
     }
 
-    public static class Mojang
-    {
+    public static class Mojang {
 
-        private Map<ServiceType, ServiceStatus> apiStatus;
+        private final Map<ServiceType, ServiceStatus> apiStatus;
 
-        public Mojang()
-        {
+        public Mojang() {
             apiStatus = new HashMap<>();
         }
 
@@ -807,14 +639,13 @@ public class API
 
         /**
          * Connects to the Mojang API ({@literal https://api.mojang.com/}) and retrieves current service statuses
+         *
          * @return {@link me.cyberdie22.apilibrary.API.Mojang} class
          */
-        public API.Mojang connect()
-        {
+        public API.Mojang connect() {
             JsonArray array = Json.getJSONArrayFromUrl("https://status.mojang.com/check");
 
-            for (int i = 0; i <= 7; i++)
-            {
+            for (int i = 0; i <= 7; i++) {
                 ServiceType service = ServiceType.values()[i];
                 JsonObject obj = (JsonObject) array.get(i);
 
@@ -828,8 +659,7 @@ public class API
         /**
          * Clears the caches
          */
-        public static void clearCaches()
-        {
+        public static void clearCaches() {
             cachedUUIDs.clear();
             cachedSkinTextures.clear();
             cachedCapeTextures.clear();
@@ -839,12 +669,12 @@ public class API
 
         /**
          * Gets the status of a service
+         *
          * @param service {@link me.cyberdie22.apilibrary.API.Mojang.ServiceType} to get {@link me.cyberdie22.apilibrary.API.Mojang.ServiceStatus} of
          * @return {@link me.cyberdie22.apilibrary.API.Mojang.ServiceStatus} of a service
          */
-        public ServiceStatus getStatus(ServiceType service)
-        {
-            if (service == null) return ServiceStatus.UNKNOWN;
+        public ServiceStatus getStatus(ServiceType service) {
+            if(service == null) return ServiceStatus.UNKNOWN;
             return apiStatus.get(service);
         }
 
@@ -854,56 +684,56 @@ public class API
 
         /**
          * <p>Gets a players UUID from {@literal https://api.mojang.com/}</p>
+         *
          * @param username Players name
          * @return Players UUID as a {@link java.lang.String}
          */
-        public String getUuidOfPlayer(String username)
-        {
+        public String getUuidOfPlayer(String username) {
             // Return Cached UUID
-            if (cachedUUIDs.containsKey(username.toLowerCase())) return cachedUUIDs.get(username.toLowerCase());
+            if(cachedUUIDs.containsKey(username.toLowerCase())) return cachedUUIDs.get(username.toLowerCase());
             LOGGER.atInfo().log("Not getting UUID from cache!");
             // Return null if https://api.mojang.com/ is down
-            if (!apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
+            if(!apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
             String uuid = Json.getJSONObjectFromURL("https://api.mojang.com/users/profiles/minecraft/" + username).get("id").getAsString();
-            if (uuid != null) cachedUUIDs.put(username.toLowerCase(), uuid);
+            if(uuid != null) cachedUUIDs.put(username.toLowerCase(), uuid);
             return uuid;
         }
 
         /**
          * Gets a players UUID from {@literal https://api.mojang.com} and fixes it to be a UUID object
+         *
          * @param username Players name
          * @return Players UUID as a UUID object
          */
-        public UUID getFixedUuidOfPlayer(String username)
-        {
+        public UUID getFixedUuidOfPlayer(String username) {
             // Return null if https://api.mojang.com/ is down
-            if (!apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
+            if(!apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
             UUID uuid = fixUUID(Json.getJSONObjectFromURL("https://api.mojang.com/users/profiles/minecraft/" + username).get("id").getAsString());
             return uuid;
         }
 
         /**
          * <p>Gets a players UUID from {@literal https://api.mojang.com/}</p>
-         * @param username Players name
+         *
+         * @param username  Players name
          * @param timestamp The time for when to check for the name
          * @return Players UUID as a {@link java.lang.String}
          */
-        public String getUuidOfPlayer(String username, long timestamp)
-        {
+        public String getUuidOfPlayer(String username, long timestamp) {
             // Return null if https://api.mojang.com/ is down
-            if (apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
+            if(apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
             return Json.getJSONObjectFromURL("https://api.mojang.com/users/profiles/minecraft/" + username + "?at=" + timestamp).get("id").getAsString();
         }
 
         /**
          * Gets the name history of the provided uuid from {@literal https://api.mojang.com/}
+         *
          * @param uuid UUID to get name history of
          * @return Name history of provided UUID
          */
-        public Map<String, Long> getNameHistoryOfPlayer(String uuid)
-        {
+        public Map<String, Long> getNameHistoryOfPlayer(String uuid) {
             // Return cached name history if possible
-            if (cachedNameHistory.containsKey(uuid)) return cachedNameHistory.get(uuid);
+            if(cachedNameHistory.containsKey(uuid)) return cachedNameHistory.get(uuid);
             LOGGER.atInfo().log("Not getting Name History from cache!");
             JsonArray names = (JsonArray) Json.getUrlAsJsonObject("https://api.mojang.com/user/profiles/" + uuid + "/names");
             Map<String, Long> history = new HashMap<>();
@@ -917,15 +747,16 @@ public class API
 
         /**
          * Gets player profile of provided uuid from {@literal https://api.mojang.com/}
+         *
          * @param uuid UUID to get player profile of
          * @return Player Profile of provided UUID using a {@link me.cyberdie22.apilibrary.API.PlayerProfile} (Only returns with Mojang data, does not return with Hypixel data)
          */
         public PlayerProfile getPlayerProfile(String uuid) {
             // Return cached player profile if possible
-            if (cachedPlayerProfiles.containsKey(uuid)) return cachedPlayerProfiles.get(uuid);
+            if(cachedPlayerProfiles.containsKey(uuid)) return cachedPlayerProfiles.get(uuid);
             LOGGER.atInfo().log("Not getting Player Profile from cache!");
             // Return null if session server is down
-            if (!(getStatus(ServiceType.SESSIONSERVER_MOJANG_COM) == ServiceStatus.GREEN)) return null;
+            if(!(getStatus(ServiceType.SESSIONSERVER_MOJANG_COM) == ServiceStatus.GREEN)) return null;
             JsonObject obj = Json.getJSONObjectFromURL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
             String name = obj.get("name").getAsString();
             Set<PlayerProfile.Property> properties = new HashSet<>();
@@ -936,7 +767,7 @@ public class API
 
                 String propName = prop.get("name").getAsString();
                 String propValue = prop.get("value").getAsString();
-                if (propName.equals("textures")) {
+                if(propName.equals("textures")) {
                     JsonObject tex;
                     try {
                         tex = (JsonObject) new JsonParser().parse(new String(Base64.getDecoder().decode(propValue)));
@@ -947,22 +778,20 @@ public class API
                     textureProperties.timestamp = tex.get("timestamp").getAsLong();
                     textureProperties.profileId = tex.get("profileId").getAsString();
                     textureProperties.profileName = tex.get("profileName").getAsString();
-                    try
-                    {
+                    try {
                         textureProperties.signatureRequired = tex.get("signatureRequired").getAsBoolean();
-                    } catch (Exception ignored) {}
+                    } catch (Exception ignored) {
+                    }
                     URL skin = null;
                     URL cape = null;
-                    try
-                    {
+                    try {
                         JsonObject textures = tex.getAsJsonObject("textures");
                         skin = new URL(textures.getAsJsonObject("SKIN").get("url").getAsString());
-                        try
-                        {
+                        try {
                             cape = new URL(textures.getAsJsonObject("CAPE").get("url").getAsString());
-                        } catch (Exception ignored) {}
-                    } catch (Exception e)
-                    {
+                        } catch (Exception ignored) {
+                        }
+                    } catch (Exception e) {
                         LOGGER.atSevere().withCause(e).log();
                     }
                     Map<String, URL> textures = new HashMap<>();
@@ -973,10 +802,10 @@ public class API
                 } else
                     property = new PlayerProfile.Property();
                 property.name = propName;
-                try
-                {
+                try {
                     property.signature = prop.get("signature").getAsString();
-                } catch (Exception ignored) {}
+                } catch (Exception ignored) {
+                }
                 property.value = propValue;
                 properties.add(property);
             });
@@ -985,8 +814,7 @@ public class API
             return playerProfile;
         }
 
-        public PlayerProfile getPlayerProfile(String uuid, PlayerProfile playerProfile)
-        {
+        public PlayerProfile getPlayerProfile(String uuid, PlayerProfile playerProfile) {
             PlayerProfile profile = getPlayerProfile(uuid);
             playerProfile.username = profile.username;
             playerProfile.uuid = profile.uuid;
@@ -1022,8 +850,7 @@ public class API
         }
          */
 
-        public enum ServiceStatus
-        {
+        public enum ServiceStatus {
             RED,
             YELLOW,
             GREEN,
@@ -1033,8 +860,7 @@ public class API
         /**
          * This enum represents the various portions of the Mojang API.
          */
-        public enum ServiceType
-        {
+        public enum ServiceType {
             MINECRAFT_NET,
             SESSION_MINECRAFT_NET,
             ACCOUNT_MOJANG_COM,
@@ -1052,8 +878,7 @@ public class API
              * @return the string
              */
             @Override
-            public String toString()
-            {
+            public String toString() {
                 return name().toLowerCase().replace("_", ".");
             }
         }
@@ -1061,8 +886,7 @@ public class API
         /**
          * This enum represents the skin types "Alex" and "Steve".
          */
-        public enum SkinType
-        {
+        public enum SkinType {
             /**
              * Steve
              */
@@ -1078,12 +902,12 @@ public class API
              * @return the string
              */
             @Override
-            public String toString()
-            {
+            public String toString() {
                 return this == DEFAULT ? "" : "slim";
             }
         }
     }
+
     public static class PlayerProfile {
 
         private String uuid;
@@ -1098,8 +922,7 @@ public class API
         /**
          * Represents a property.
          */
-        public static class Property
-        {
+        public static class Property {
             String name;
             String value;
             String signature;
@@ -1152,8 +975,7 @@ public class API
             }
 
             @Override
-            public String toString()
-            {
+            public String toString() {
                 return "TexturesProperty{" +
                     "name='" + name + '\'' +
                     ", value='" + value + '\'' +
@@ -1171,8 +993,8 @@ public class API
          * <p>Constructor for the class.
          * <p>You may use {@code new API.Mojang().connect().getPlayerProfile(uuid)} to retrieve the instance as it will verify the validity of the parameters.
          *
-         * @param uuid the UUID of the player this object should represent
-         * @param username the username of said player (you may use {@code API.Mojang().connect().getNameHistoryOfPlayer(uuid)} to retrieve it).
+         * @param uuid       the UUID of the player this object should represent
+         * @param username   the username of said player (you may use {@code API.Mojang().connect().getNameHistoryOfPlayer(uuid)} to retrieve it).
          * @param properties the properties for that player. Depends on what you wish to do with the object
          */
         public PlayerProfile(String uuid, String username, Set<Property> properties) {
@@ -1186,15 +1008,14 @@ public class API
          * <p>Constructor for the class</p>
          * <p>You may use {@code new API.Hypixel().getPlayerProfile(uuid)} to retrieve the instance as it will verify the validity of the parameters</p>
          *
-         * @param uuid the UUID of the player this object should represent
+         * @param uuid     the UUID of the player this object should represent
          * @param username the username of said player (you may use {@code API.Mojang().connect().getNameHistoryOfPlayer(uuid)} to retrueve it)
-         * @param online whether or not the player is online on Hypixel
-         * @param game the game the player is playing
+         * @param online   whether or not the player is online on Hypixel
+         * @param game     the game the player is playing
          * @param gameMode the game mode the player is playing
-         * @param map the map the player is on
+         * @param map      the map the player is on
          */
-        public PlayerProfile(String uuid, String username, boolean online, GameType game, String gameMode, String map)
-        {
+        public PlayerProfile(String uuid, String username, boolean online, GameType game, String gameMode, String map) {
             this.uuid = uuid;
             this.username = username;
             this.online = online;
@@ -1237,43 +1058,42 @@ public class API
 
         /**
          * <p>Returns whether or not the player is online on Hypixel</p>
+         *
          * @return Returns whether or not the player is online on Hypixel
          */
-        public boolean isOnline()
-        {
+        public boolean isOnline() {
             return online;
         }
 
         /**
          * <p>Returns the game the player is in if the player is online on Hypixel</p>
+         *
          * @return The game the player is in
          */
-        public GameType getGame()
-        {
+        public GameType getGame() {
             return game;
         }
 
         /**
          * <p>Returns the game mode the player is in if the player is playing a game and is online on Hypixel</p>
+         *
          * @return The game mode the player is in
          */
-        public String getGameMode()
-        {
+        public String getGameMode() {
             return gameMode;
         }
 
         /**
          * <p>Returns the map the player is on if the player is playing a game and is online on Hypixel</p>
+         *
          * @return The map the player is on
          */
-        public String getMap()
-        {
+        public String getMap() {
             return map;
         }
 
         @Override
-        public String toString()
-        {
+        public String toString() {
             return "PlayerProfile{" +
                 "uuid='" + uuid + '\'' +
                 ", username='" + username + '\'' +
