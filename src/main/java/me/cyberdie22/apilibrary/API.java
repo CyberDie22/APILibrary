@@ -184,7 +184,7 @@ public class API {
          */
         public LeaderboardsReply.Leaderboard getLeaderboard(net.hypixel.api.util.GameType gameType, LeaderboardPaths path, LeaderboardPrefix prefix) {
             try {
-                AtomicReference<LeaderboardsReply.Leaderboard> selectedLeaderboard = new AtomicReference<LeaderboardsReply.Leaderboard>();
+                AtomicReference<LeaderboardsReply.Leaderboard> selectedLeaderboard = new AtomicReference<>();
                 API.getLeaderboards().get().getLeaderboards().get(gameType).forEach(leaderboard -> {
                     if(leaderboard.getPath().equals(path.toString()) && leaderboard.getPrefix().equals(prefix.toString()))
                         selectedLeaderboard.set(leaderboard);
@@ -280,9 +280,7 @@ public class API {
         public List<String> getKnownAliases(UUID uuid) {
             try {
                 AtomicReference<List<String>> knownAliases = new AtomicReference<>();
-                API.getPlayerByUuid(uuid).get().getPlayer().get("knownAliases").getAsJsonArray().forEach(alias -> {
-                    knownAliases.get().add(alias.getAsString());
-                });
+                API.getPlayerByUuid(uuid).get().getPlayer().get("knownAliases").getAsJsonArray().forEach(alias -> knownAliases.get().add(alias.getAsString()));
                 return knownAliases.get();
             } catch (Exception e) {
                 LOGGER.atSevere().withCause(e).log();
@@ -438,11 +436,166 @@ public class API {
 
             public Map<PrivateGameSettings, Object> getPrivateGameSettings(UUID uuid) {
                 try {
-                    LOGGER.atInfo().log("%s", Json.getMapFromJsonObject(this.getBedwarsStats(uuid).getAsJsonObject("privategames")));
+                    Map<PrivateGameSettings, Object> settings = new HashMap<>();
+                    Json.getMapFromJsonObject(this.getBedwarsStats(uuid).getAsJsonObject("privategames")).forEach((option, setting) -> settings.put(PrivateGameSettings.valueOf(option.toUpperCase()), setting));
+                    return settings;
                 } catch (Exception e) {
                     LOGGER.atSevere().withCause(e).log();
                 }
                 return null;
+            }
+
+            public String getSelectedUltimate(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("selected_ultimate").getAsString();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return null;
+            }
+
+            public int getItemPurchased(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("_items_purchaced_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getBedsLost(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("beds_lost_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getBedsBroken(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("beds_broken_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getCoins(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("coins").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getDeaths(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("deaths_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getDiamondsCollected(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("diamond_resources_collected_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getEmeraldsCollected(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("emerald_resources_collected_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getDeathsByEntity(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("entity_attack_deaths_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getFinalDeathsByEntity(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("entity_attack_final_deaths_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getKillsByEntity(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("entity_attack_kills_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getFinalDeaths(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("final_deaths_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getFinalKills(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("final_kills_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getGamesPlayed(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("games_played_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getGoldCollected(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("gold_resourced_collected_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getIronCollected(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("iron_resources_collected_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
+            }
+
+            public int getItemsPurchaced(UUID uuid) {
+                try {
+                    return this.getBedwarsStats(uuid).get("items_purchaced_bedwars").getAsInt();
+                } catch (Exception e) {
+                    LOGGER.atSevere().withCause(e).log();
+                }
+                return 0;
             }
 
             public enum PrivateGameSettings {
@@ -497,9 +650,6 @@ public class API {
             OWNER
         }
 
-        /**
-         * Leaderboard Prefixes
-         */
         public enum LeaderboardPrefix {
             OVERALL,
             WEEKLY,
@@ -527,9 +677,6 @@ public class API {
             }
         }
 
-        /**
-         * Leaderboard Paths
-         */
         public enum LeaderboardPaths {
             BEDWARS_LEVEL,
             WINS,
@@ -549,9 +696,6 @@ public class API {
             }
         }
 
-        /**
-         * Game types
-         */
         public enum GameType {
             QUAKECRAFT,
             WALLS,
@@ -708,8 +852,7 @@ public class API {
         public UUID getFixedUuidOfPlayer(String username) {
             // Return null if https://api.mojang.com/ is down
             if(!apiStatus.get(ServiceType.API_MOJANG_COM).equals(ServiceStatus.GREEN)) return null;
-            UUID uuid = fixUUID(Json.getJSONObjectFromURL("https://api.mojang.com/users/profiles/minecraft/" + username).get("id").getAsString());
-            return uuid;
+            return fixUUID(Json.getJSONObjectFromURL("https://api.mojang.com/users/profiles/minecraft/" + username).get("id").getAsString());
         }
 
         /**

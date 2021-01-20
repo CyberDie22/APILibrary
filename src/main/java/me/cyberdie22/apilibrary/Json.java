@@ -15,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
@@ -114,10 +115,7 @@ public class Json {
 
             Stream<String> jsonMultiLine = bufferedReader.lines();
             StringBuilder json = new StringBuilder();
-            for (Object str : jsonMultiLine.toArray()) {
-                json.append(str);
-            }
-            LOGGER.atInfo().log(json.toString());
+            jsonMultiLine.forEach(json::append);
             return json.toString();
 
         } catch (Exception e) {
@@ -129,9 +127,7 @@ public class Json {
 
     public static Map<String, String> getMapFromJsonObject(JsonObject obj) {
         Map<String, String> result = new HashMap<>();
-        obj.entrySet().forEach(entry -> {
-            result.put(entry.getKey(), entry.getValue().getAsString());
-        });
+        obj.entrySet().forEach(entry -> result.put(entry.getKey(), entry.getValue().getAsString()));
         return result;
     }
 
